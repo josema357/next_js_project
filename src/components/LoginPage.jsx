@@ -5,11 +5,13 @@ import { LockClosedIcon } from '@heroicons/react/24/solid';
 import React, { useRef } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import ModalError from '@/common/ModalError';
+import { useRouter } from 'next/navigation';
 
 export default function LoginPage() {
   const emailRef=useRef(null);
   const passwordRef=useRef(null);
   const auth=useAuth();
+  const router=useRouter();
 
   /**
    * Esta funcion obtiene los datos del formulario
@@ -21,7 +23,7 @@ export default function LoginPage() {
 
     auth.signIn(email,password)
       .then(()=>{
-        console.log('Login success');
+        router.push('/dashboard');
       },()=>{
         auth.setOpenModal(true);
       });

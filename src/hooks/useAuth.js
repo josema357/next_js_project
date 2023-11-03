@@ -19,7 +19,7 @@ export const useAuth = () => {
 
 function useProvideAuth() {
   //Usuario logeado
-  const [user] = useState(null);
+  const [user, setUser] = useState(null);
   //Mostrar modal de error
   const [openModal, setOpenModal]=useState(false);
   //Iniciar sesion
@@ -36,8 +36,12 @@ function useProvideAuth() {
       options
     );
     if (access_token) {
+      const token = access_token.access_token;
       Cookies.set("token", access_token.access_token, { expires: 5 });
-      console.log(access_token);
+
+      axios.defaults.headers.Authorization = `Bearer ${token}`;
+      const {data:user} = await axios.get(endPoints.auth.profile);
+      setUser(user);
     }
   };
 
