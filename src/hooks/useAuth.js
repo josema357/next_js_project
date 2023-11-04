@@ -20,8 +20,10 @@ export const useAuth = () => {
 function useProvideAuth() {
   //Usuario logeado
   const [user, setUser] = useState(null);
-  //Mostrar modal de error
+  //Mostrar modal de error // este deberia ser local 
   const [openModal, setOpenModal]=useState(false);
+  //Offset del endpoint de products
+  const [offSet, setOffSet] = useState(0);
   //Iniciar sesion
   const signIn = async (email, password) => {
     const options = {
@@ -49,6 +51,8 @@ function useProvideAuth() {
     user,
     signIn,
     openModal,
-    setOpenModal
+    setOpenModal,
+    offSet,
+    setOffSet,
   };
 }
