@@ -8,7 +8,7 @@ import { useAuth } from '@/hooks/useAuth';
 
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', current: true },
-  { name: 'Productos', href: '/dashboard/products/', current: true },
+  { name: 'Productos', href: '/dashboard/products/', current: false },
   { name: 'Ventas', href: '/ventas', current: false },
 ];
 const userNavigation = [

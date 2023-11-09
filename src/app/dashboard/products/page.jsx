@@ -2,14 +2,53 @@
 
 import Modal from "@/common/Modal";
 import Pagination from "@/common/Pagination";
+import FormProduct from "@/components/FormProduct";
+import { GlobalContext } from "@/context/Context";
 import { useAuth } from "@/hooks/useAuth";
+import endPoints from "@/services/api/endPoints";
+import { deleteProduct } from "@/services/api/products";
 import { PlusIcon } from "@heroicons/react/24/solid";
-import { useState } from "react";
+import axios from "axios";
+import Link from "next/link";
+import { useContext, useEffect, useState } from "react";
+import Swal from "sweetalert2";
 
 export default function Products() {
   const auth = useAuth();
-  const [open, setOpen]=useState(false);
+  const context = useContext(GlobalContext);
   const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    async function getProducts() {
+      const response = await axios.get(endPoints.products.allProducts);
+      setProducts(response.data);
+    }
+    try {
+      getProducts();
+    } catch (error) {
+      throw new Error("Sentry Frontend Error: getAllProduct => ", error);
+    }
+  }, [context.reloadAllProducts]);
+
+  const handleDelete = (id) => {
+    deleteProduct(id)
+      .then(() => {
+        Swal.fire({
+          text: "Removed product",
+          icon: "success",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            context.setReloadAllProducts(!context.reloadAllProducts);
+          }
+        });
+      })
+      .catch(() => {
+        Swal.fire({
+          icon: "error",
+          text: "Something went wrong!",
+        });
+      });
+  };
 
   return (
     <>
@@ -24,12 +63,9 @@ export default function Products() {
             <button
               type="button"
               className="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              onClick={()=>setOpen(true)}
+              onClick={() => context.setOpenForm(true)}
             >
-              <PlusIcon
-                className="-ml-0.5 mr-1.5 h-5 w-5"
-                aria-hidden="true"
-              />
+              <PlusIcon className="-ml-0.5 mr-1.5 h-5 w-5" aria-hidden="true" />
               Add product
             </button>
           </span>
@@ -107,17 +143,20 @@ export default function Products() {
                         {product.id}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                        <a
-                          href="/"
-                          className="text-indigo-600 hover:text-indigo-900"
-                        >
-                          Edit
-                        </a>
+                        <Link href={`/dashboard/edit/${product.id}`}>
+                          <p className="text-indigo-600 hover:text-indigo-900">
+                            Edit
+                          </p>
+                        </Link>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                        <a href="/" className="text-red-600 hover:text-red-900">
+                        <span
+                          onClick={() => handleDelete(product.id)}
+                          className="text-red-600 hover:text-red-900 cursor-pointer"
+                          aria-hidden="true"
+                        >
                           Delete
-                        </a>
+                        </span>
                       </td>
                     </tr>
                   ))}
@@ -127,9 +166,9 @@ export default function Products() {
           </div>
         </div>
       </div>
-      <Pagination offSet={auth.offSet} setOffSet={auth.setOffSet} />
-      <Modal open={open} setOpen={setOpen}>
-        <h1>Hola mudno</h1>
+      <Pagination offSet={auth.offSet} setOffSet={auth.setOffSet} lengthProducts={products.length}/>
+      <Modal open={context.openForm} setOpen={context.setOpenForm}>
+        <FormProduct />
       </Modal>
     </>
   );

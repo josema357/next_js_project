@@ -4,7 +4,7 @@
 import { ChartJS } from "@/common/Chart";
 import { useAuth } from "@/hooks/useAuth";
 import useFetch from "@/hooks/useFetch";
-import endPoints from "@/services/api";
+import endPoints from "@/services/api/endPoints";
 
 const PRODUCT_LIMIT = 5;
 const PRODUCT_OFFSET = 0;

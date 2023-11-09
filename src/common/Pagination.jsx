@@ -1,7 +1,7 @@
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 import React from "react";
 
-const Pagination = ({ offSet, setOffSet }) => {
+const Pagination = ({ offSet, setOffSet, lengthProducts }) => {
   //Actualizar el offset
   function HandleSetOffset(directionArrow) {
     if (directionArrow) {
@@ -35,7 +35,7 @@ const Pagination = ({ offSet, setOffSet }) => {
         <div>
           <p className="text-sm text-gray-700">
             Showing <span className="font-medium">{offSet+1}</span> to{" "}
-            <span className="font-medium">{offSet+5}</span>{" "} results
+            <span className="font-medium">{lengthProducts}</span>{" "} results
           </p>
         </div>
         <div>

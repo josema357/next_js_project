@@ -3,7 +3,7 @@
 
 import axios from "axios";
 import { createContext, useContext, useState } from "react";
-import endPoints from "@/services/api";
+import endPoints from "@/services/api/endPoints";
 import Cookies from "js-cookie";
 
 const AuthContext = createContext();
@@ -20,7 +20,7 @@ export const useAuth = () => {
 function useProvideAuth() {
   //Usuario logeado
   const [user, setUser] = useState(null);
-  //Mostrar modal de error // este deberia ser local 
+  //Mostrar modal de error al iniciar sesion
   const [openModal, setOpenModal]=useState(false);
   //Offset del endpoint de products
   const [offSet, setOffSet] = useState(0);
