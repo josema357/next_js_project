@@ -2,18 +2,13 @@
 "use client";
 
 import { ChartJS } from "@/common/Chart";
-import { useAuth } from "@/hooks/useAuth";
 import useFetch from "@/hooks/useFetch";
 import endPoints from "@/services/api/endPoints";
 
-const PRODUCT_LIMIT = 5;
-const PRODUCT_OFFSET = 0;
 
 export default function Dashboard() {
-  const auth = useAuth();
-  auth.setOffSet(PRODUCT_OFFSET);
   const products = useFetch(
-    endPoints.products.getProducts(PRODUCT_LIMIT, auth.offSet)
+    endPoints.products.allProducts
   );
   const categoryNames= products?.map((product)=>product.category.name);
   //const categoryCount=products?.map((category)=>category.category);

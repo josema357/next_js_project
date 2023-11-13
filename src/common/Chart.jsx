@@ -13,20 +13,25 @@ Chart.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 export const ChartJS = ({ chartData }) => {
   return (
     <>
-      <Bar
-        data={chartData}
-        options={{
-          title: {
-            display: true,
-            text: "Category",
-            fontSize: 20,
-          },
-          legend: {
-            display: true,
-            position: "rigth",
-          },
-        }}
-      />
+      <div style={{height: "calc(100vh - 176px)" }}>
+        <Bar
+          className="grafic"
+          data={chartData}
+          options={{
+            title: {
+              display: true,
+              text: "Category",
+              fontSize: 20,
+            },
+            legend: {
+              display: true,
+              position: "rigth",
+            },
+            maintainAspectRatio: false,
+            responsive: true,
+          }}
+        />
+      </div>
     </>
   );
 };
