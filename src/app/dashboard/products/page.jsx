@@ -148,7 +148,10 @@ export default function Products() {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                         <span
-                          onClick={() => handleDelete(product.id)}
+                          onClick={() =>{
+                            console.log("delete desabled");
+                            //handleDelete(product.id);
+                          }}
                           className="text-red-600 hover:text-red-900 cursor-pointer"
                           aria-hidden="true"
                         >

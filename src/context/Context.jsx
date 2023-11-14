@@ -10,7 +10,7 @@ export const GlobalProvider = ({ children }) => {
   //Actualizar la lista de todos los productos
   const [reloadAllProducts, setReloadAllProducts] = useState(false);
   //Mostrar u ocultar Nav
-  const [showNav, setShowNav] = useState(true);
+  const [showNav, setShowNav] = useState(false);
   return (
     <GlobalContext.Provider
       value={{
