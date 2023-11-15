@@ -1,7 +1,7 @@
 "use client";
 
 import { GlobalContext } from "@/context/Context";
-import { addProduct, deleteProduct } from "@/services/api/products";
+import { addProduct, updateProduct } from "@/services/api/products";
 import { useRouter } from "next/navigation";
 import { useContext, useRef } from "react";
 import Swal from "sweetalert2";
@@ -28,7 +28,7 @@ export default function FormProduct({ product }) {
 
     context.setOpenForm(false);
     if (product) {
-      deleteProduct(product?.id, data).then((response) => {
+      updateProduct(product?.id, data).then((response) => {
         console.log(response);
         Swal.fire({
           text: "Updated product",

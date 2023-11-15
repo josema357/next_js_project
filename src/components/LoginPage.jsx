@@ -2,16 +2,19 @@
 "use client";
 
 import { LockClosedIcon } from "@heroicons/react/24/solid";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import ModalError from "@/common/ModalError";
 import { useRouter } from "next/navigation";
+import Loading from "@/common/Loading";
+import Cookies from "js-cookie";
 
 export default function LoginPage() {
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
   const auth = useAuth();
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
   /**
    * Esta funcion obtiene los datos del formulario
@@ -20,6 +23,8 @@ export default function LoginPage() {
     event.preventDefault();
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
+
+    setLoading(true);
 
     auth.signIn(email, password).then(
       () => {
@@ -30,6 +35,10 @@ export default function LoginPage() {
       }
     );
   };
+
+  if(Cookies.get("token")===null){
+    setLoading(false);
+  }
 
   return (
     <>
@@ -54,7 +63,7 @@ export default function LoginPage() {
                   autoComplete="email"
                   required
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  placeholder="admin@mail.com"
+                  placeholder="exampleadmin@mail.com"
                   ref={emailRef}
                 />
               </div>
@@ -69,7 +78,7 @@ export default function LoginPage() {
                   autoComplete="current-password"
                   required
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  placeholder="admin123"
+                  placeholder="exampleadmin123"
                   ref={passwordRef}
                 />
               </div>
@@ -119,6 +128,8 @@ export default function LoginPage() {
         </div>
       </div>
       <ModalError />
+      {loading && <Loading text={"Loading"}/>}
+      
     </>
   );
 }

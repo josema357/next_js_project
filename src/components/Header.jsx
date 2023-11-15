@@ -10,13 +10,13 @@ import { UserCircleIcon } from "@heroicons/react/24/solid";
 import Cookies from "js-cookie";
 
 const navigation = [
-  { name: "Dashboard", href: "/dashboard", current: true },
+  { name: "Dashboard", href: "/dashboard", current: false },
   { name: "Products", href: "/dashboard/products/", current: false },
   { name: "Sales", href: "/sales", current: false },
 ];
 const userNavigation = [
-  { name: "Your Profile", href: "#" },
-  { name: "Settings", href: "#" },
+  { name: "Your Profile", href: "/profile" },
+  { name: "Settings", href: "/shop-settings" },
 ];
 
 function classNames(...classes) {
@@ -40,13 +40,15 @@ export default function Header() {
               <div className="flex items-center justify-between h-16">
                 <div className="flex items-center">
                   <div className="flex-shrink-0">
-                    <Image
-                      className="w-8 h-8"
-                      width="32"
-                      height="32"
-                      src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg"
-                      alt="Workflow"
-                    />
+                    <a href="/dashboard">
+                      <Image
+                        className="w-8 h-8"
+                        width="32"
+                        height="32"
+                        src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg"
+                        alt="Workflow"
+                      />
+                    </a>
                   </div>
                   <div className="hidden md:block">
                     <div className="ml-10 flex items-baseline space-x-4">
@@ -105,7 +107,12 @@ export default function Header() {
                         leaveFrom="transform opacity-100 scale-100"
                         leaveTo="transform opacity-0 scale-95"
                       >
-                        <Menu.Items className={classNames(Cookies.get("token") ? "" : "hidden", "origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none")}>
+                        <Menu.Items
+                          className={classNames(
+                            Cookies.get("token") ? "" : "hidden",
+                            "origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+                          )}
+                        >
                           {userNavigation.map((item) => (
                             <Menu.Item key={item.name}>
                               {({ active }) => (
